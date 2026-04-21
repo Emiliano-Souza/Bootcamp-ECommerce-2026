@@ -28,14 +28,16 @@ export async function loader(args: Route.LoaderArgs) {
  * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
  */
 async function loadCriticalData({context}: Route.LoaderArgs) {
-  const [{collections}] = await Promise.all([
-    context.storefront.query(FEATURED_COLLECTION_QUERY),
+  const [{collection}] = await Promise.all([
+    context.storefront.query(FEATURED_COLLECTION_QUERY, {
+      variables: {handle: 'destaques'},
+    }),
     // Add other queries here, so that they are loaded in parallel
   ]);
 
   return {
     isShopLinked: Boolean(context.env.PUBLIC_STORE_DOMAIN),
-    featuredCollection: collections.nodes[0],
+    featuredCollection: collection,
   };
 }
 
@@ -61,37 +63,79 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
-    <div className="home">
+    <div className="home bootcamp-home">
       {data.isShopLinked ? null : <MockShopNotice />}
+      <HeroBanner />
       <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
   );
 }
 
+function HeroBanner() {
+  return (
+    <section className="hero-banner">
+      <div className="hero-content">
+        <span className="hero-eyebrow">Shopify Hydrogen Storefront</span>
+        <h1>Bem Vindo ao Bootcamp Store</h1>
+        <p>
+          Uma vitrine headless feita com Hydrogen, Storefront API e metafields
+          para destacar produtos para desenvolvedores.
+        </p>
+        <div className="hero-actions">
+          <Link className="hero-button" to="/collections/destaques">
+            Ver Produtos
+          </Link>
+          <Link className="hero-link" to="/commerce">
+            Ver Integracao com Commerce
+          </Link>
+          <Link className="hero-link" to="/about">
+            Ver Integracao com AEM
+          </Link>
+          <Link className="hero-link" to="/dashboard">
+            Ver Dashboard
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function FeaturedCollection({
   collection,
 }: {
-  collection: FeaturedCollectionFragment;
+  collection: FeaturedCollectionFragment | null | undefined;
 }) {
   if (!collection) return null;
   const image = collection?.image;
   return (
-    <Link
-      className="featured-collection"
-      to={`/collections/${collection.handle}`}
-    >
+    <section className="featured-products" aria-labelledby="featured-products">
+      <div className="featured-products-header">
+        <div>
+          <p className="section-kicker">Colecao em destaque</p>
+          <h2 id="featured-products">{collection.title}</h2>
+        </div>
+        <Link className="section-link" to={`/collections/${collection.handle}`}>
+          Explorar colecao
+        </Link>
+      </div>
       {image && (
-        <div className="featured-collection-image">
-          <Image
-            data={image}
-            sizes="100vw"
-            alt={image.altText || collection.title}
-          />
+        <div className="featured-collection">
+          <div className="featured-collection-image">
+            <Image
+              data={image}
+              sizes="100vw"
+              alt={image.altText || collection.title}
+            />
+          </div>
         </div>
       )}
-      <h1>{collection.title}</h1>
-    </Link>
+      <div className="products-grid">
+        {collection.products.nodes.map((product) => (
+          <ProductItem key={product.id} product={product} loading="eager" />
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -105,7 +149,12 @@ function RecommendedProducts({
       className="recommended-products"
       aria-labelledby="recommended-products"
     >
-      <h2 id="recommended-products">Recommended Products</h2>
+      <div className="recommended-products-header">
+        <div>
+          <p className="section-kicker">Shopify Storefront API</p>
+          <h2 id="recommended-products">Produtos Recomendados</h2>
+        </div>
+      </div>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
           {(response) => (
@@ -128,6 +177,7 @@ const FEATURED_COLLECTION_QUERY = `#graphql
   fragment FeaturedCollection on Collection {
     id
     title
+    description
     image {
       id
       url
@@ -136,13 +186,41 @@ const FEATURED_COLLECTION_QUERY = `#graphql
       height
     }
     handle
-  }
-  query FeaturedCollection($country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-    collections(first: 1, sortKey: UPDATED_AT, reverse: true) {
+    products(first: 8) {
       nodes {
-        ...FeaturedCollection
+        id
+        title
+        handle
+        featuredImage {
+          id
+          url
+          altText
+          width
+          height
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        techStack: metafield(namespace: "custom", key: "tech_stack") {
+          value
+        }
+        highlightBadge: metafield(namespace: "custom", key: "highlight_badge") {
+          value
+        }
       }
+    }
+  }
+  query FeaturedCollection(
+    $country: CountryCode
+    $language: LanguageCode
+    $handle: String!
+  )
+    @inContext(country: $country, language: $language) {
+    collection(handle: $handle) {
+      ...FeaturedCollection
     }
   }
 ` as const;

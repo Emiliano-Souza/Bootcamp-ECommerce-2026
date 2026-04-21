@@ -12,6 +12,7 @@
   ],
   "exclude": ["node_modules", "dist", "build", "packages/**/dist/**/*"],
   "compilerOptions": {
+    "baseUrl": ".",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -24,7 +25,6 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
     "types": [
       "@shopify/oxygen-workers-types",
       "react-router",
@@ -32,7 +32,9 @@
       "vite/client"
     ],
     "paths": {
-      "~/*": ["app/*"]
+      "~/*": ["./app/*"],
+      "storefrontapi.generated": ["./storefrontapi.generated.d.ts"],
+      "customer-accountapi.generated": ["./customer-accountapi.generated.d.ts"]
     },
     "noEmit": true,
     "rootDirs": [".", "./.react-router/types"],

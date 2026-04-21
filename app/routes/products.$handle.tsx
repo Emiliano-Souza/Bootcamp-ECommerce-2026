@@ -95,12 +95,22 @@ export default function Product() {
     selectedOrFirstAvailableVariant: selectedVariant,
   });
 
-  const {title, descriptionHtml} = product;
+  const {title, descriptionHtml, techStack, highlightBadge} = product;
 
   return (
     <div className="product">
       <ProductImage image={selectedVariant?.image} />
       <div className="product-main">
+        <div className="product-highlights">
+          {highlightBadge?.value ? (
+            <span className="product-highlight-badge">
+              {highlightBadge.value}
+            </span>
+          ) : null}
+          {techStack?.value ? (
+            <span className="product-tech-stack">{techStack.value}</span>
+          ) : null}
+        </div>
         <h1>{title}</h1>
         <ProductPrice
           price={selectedVariant?.price}
@@ -212,6 +222,12 @@ const PRODUCT_FRAGMENT = `#graphql
     seo {
       description
       title
+    }
+    techStack: metafield(namespace: "custom", key: "tech_stack") {
+      value
+    }
+    highlightBadge: metafield(namespace: "custom", key: "highlight_badge") {
+      value
     }
   }
   ${PRODUCT_VARIANT_FRAGMENT}
