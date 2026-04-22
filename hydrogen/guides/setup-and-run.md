@@ -1,10 +1,14 @@
 # Setup e Execução
 
+## Objetivo
+
+Este guia resume como executar as partes principais do projeto no formato atual do monorepo.
+
 ## 1. Hydrogen
 
 Diretório:
 
-- `C:\Users\emili\BOOTCAMP\bootcamp-emiliano`
+- `hydrogen/`
 
 Instalação:
 
@@ -12,7 +16,7 @@ Instalação:
 npm install
 ```
 
-Rodar:
+Execução local:
 
 ```bash
 npm run dev
@@ -24,42 +28,62 @@ Build:
 npm run build
 ```
 
+Validação:
+
+```bash
+npm run lint
+npm run typecheck
+```
+
 ## 2. AEM
 
-Author:
+Diretório do código-fonte:
 
-- `C:\Users\emili\Downloads\crx-quickstart`
-- URL: `http://localhost:4502`
+- `aem/`
 
-Publish:
+Build do projeto:
 
-- `C:\Users\emili\Downloads\crx-quickstart-publish`
-- URL: `http://localhost:4503`
+```bash
+mvn clean install
+```
+
+Deploy local no Author:
+
+```bash
+mvn -PautoInstallPackage clean install
+```
+
+Deploy local no Publish:
+
+```bash
+mvn -PautoInstallPackagePublish clean install
+```
+
+Runtimes locais esperados:
+
+- Author: `http://localhost:4502`
+- Publish: `http://localhost:4503`
 
 Observação:
 
-- estas pastas são runtime local
-- não devem ser enviadas para o GitHub
+- as pastas `crx-quickstart` e `crx-quickstart-publish` são runtime local e não devem ser versionadas
 
 ## 3. Adobe Commerce
 
-Diretório local:
+Diretório versionado neste monorepo:
 
-- `\\wsl.localhost\Ubuntu\home\emiliano\project-community-edition`
+- `commerce/app/code/Bootcamp`
 
-O ambiente Commerce foi usado com Docker.
+Escopo:
+
+- módulos customizados do projeto
+- não inclui a instalação completa do Adobe Commerce
 
 Endpoint validado:
 
 - `http://magento2.docker/rest/V1/bootcamp/catalog/products`
 
-## 4. Validações úteis
-
-Use os comandos em:
-
-- [Comandos de Validação da Demo](demo-validation-commands.md)
-
-## 5. URLs principais
+## 4. URLs Úteis
 
 Hydrogen:
 
@@ -75,3 +99,8 @@ AEM:
 - `http://localhost:4503/content/bootcamp-emiliano/us/en/vitrine-bootcamp.html`
 - `http://localhost:4503/content/bootcamp-emiliano/us/en/loja-bootcamp.html`
 
+## 5. Validação da Entrega
+
+Use os comandos documentados em:
+
+- [Comandos de Validação da Demo](demo-validation-commands.md)

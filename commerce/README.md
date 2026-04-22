@@ -1,6 +1,17 @@
 # Commerce Customizations
 
-Esta pasta contem apenas o codigo customizado do Adobe Commerce usado no bootcamp.
+Esta pasta reúne exclusivamente o código autoral do Adobe Commerce utilizado no projeto.
+
+## Escopo
+
+Os módulos versionados aqui são:
+
+- `Bootcamp/HelloWorld`
+  Módulo inicial de apoio usado durante a evolução do bootcamp.
+- `Bootcamp/CatalogApi`
+  Expõe o endpoint REST customizado consumido pelo storefront Hydrogen.
+- `Bootcamp/AemContent`
+  Faz a ponte entre conteúdo do AEM e a experiência renderizada no Commerce.
 
 ## Estrutura
 
@@ -14,12 +25,17 @@ commerce/
             `-- HelloWorld/
 ```
 
-## Escopo
+## O Que Este Diretório Não Inclui
 
-- `CatalogApi`: endpoint REST customizado consumido pelo Hydrogen
-- `AemContent`: integracao de banner/conteudo vindo do AEM
-- `HelloWorld`: modulo inicial do bootcamp
+Para manter o repositório enxuto e publicável, não estão versionados aqui:
 
-## Fora deste repositorio
+- instalação completa do Magento
+- `vendor/`
+- `generated/`
+- `var/`
+- configuração local da instância
+- arquivos sensíveis como `auth.json` e `app/etc/env.php`
 
-Nao incluimos aqui a instalacao completa do Magento, `vendor/`, `generated/`, `var/` nem configuracoes locais da instancia.
+## Uso Esperado
+
+Esta pasta deve ser tratada como fonte das customizações. Para executar a solução em um ambiente Commerce real, os módulos precisam ser colocados dentro de uma instância Adobe Commerce local ou em container.

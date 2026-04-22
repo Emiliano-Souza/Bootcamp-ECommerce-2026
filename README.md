@@ -1,12 +1,27 @@
-# Bootcamp Emiliano
+# Bootcamp E-Commerce 2026
 
-Monorepo do projeto final do bootcamp com as tres frentes de codigo-fonte versionadas em um unico repositorio:
+Monorepo do projeto final do bootcamp, reunindo em um único repositório as três frentes principais da solução:
 
-- `hydrogen/`: storefront headless em Shopify Hydrogen
-- `aem/`: projeto Adobe Experience Manager baseado em Maven
-- `commerce/`: customizacoes Adobe Commerce/Magento do projeto
+- `hydrogen/`: storefront headless construído com Shopify Hydrogen
+- `aem/`: projeto Adobe Experience Manager com componentes, configuração e conteúdo
+- `commerce/`: módulos customizados do Adobe Commerce/Magento
 
-## Estrutura
+## Visão Geral
+
+O projeto foi estruturado para demonstrar uma arquitetura composable de e-commerce, conectando:
+
+- Shopify Storefront API como base do storefront headless
+- Adobe Commerce como catálogo e API REST customizada
+- Adobe Experience Manager como camada de conteúdo, páginas e experiência
+
+Principais fluxos implementados:
+
+- Adobe Commerce -> Hydrogen via endpoint REST customizado
+- AEM -> Hydrogen via GraphQL
+- AEM -> Commerce via módulo de conteúdo/banner
+- Shopify -> Hydrogen via produtos, coleções e metafields
+
+## Estrutura do Repositório
 
 ```text
 .
@@ -16,70 +31,89 @@ Monorepo do projeto final do bootcamp com as tres frentes de codigo-fonte versio
 `-- hydrogen/
 ```
 
-## O que entra neste repositorio
+## Organização por Diretório
 
-- codigo-fonte do storefront Hydrogen
-- codigo-fonte AEM com modulos `all`, `core`, `ui.apps`, `ui.content`, `ui.config`, `ui.apps.structure`, `ui.frontend`, `dispatcher`, `it.tests` e `ui.tests`
-- modulos customizados do Commerce em `commerce/app/code/Bootcamp`
-- documentacao e materiais operacionais do projeto
+### `hydrogen/`
 
-## O que nao entra
+Aplicação principal do storefront headless. Contém:
 
-- runtimes locais do AEM como `crx-quickstart`
-- instalacao completa do Adobe Commerce
-- `node_modules`, `dist`, `target`, caches e logs
-- arquivos de ambiente e credenciais locais
+- rotas customizadas de integração
+- componentes React
+- estilos do storefront
+- documentação operacional da entrega
 
-## Subprojetos
+Veja mais em [hydrogen/README.md](hydrogen/README.md).
 
-### Hydrogen
+### `aem/`
 
-Diretorio: `hydrogen/`
+Projeto AEM em estrutura Maven, incluindo:
 
-Comandos principais:
+- `core`
+- `ui.apps`
+- `ui.apps.structure`
+- `ui.config`
+- `ui.content`
+- `ui.frontend`
+- `dispatcher`
+- `it.tests`
+- `ui.tests`
+- `all`
 
-```bash
-cd hydrogen
-npm install
-npm run dev
-npm run lint
-npm run typecheck
-npm run build
-```
+Veja mais em [aem/README.md](aem/README.md).
 
-Mais detalhes em [hydrogen/README.md](hydrogen/README.md).
+### `commerce/`
 
-### AEM
-
-Diretorio: `aem/`
-
-Comandos comuns:
-
-```bash
-cd aem
-mvn clean install
-mvn -PautoInstallPackage clean install
-```
-
-### Commerce
-
-Diretorio: `commerce/`
-
-Este repositorio guarda apenas os modulos customizados:
+Escopo reduzido às customizações do projeto, mantendo apenas o código autoral do Adobe Commerce:
 
 - `Bootcamp/HelloWorld`
 - `Bootcamp/CatalogApi`
 - `Bootcamp/AemContent`
 
-Mais detalhes em [commerce/README.md](commerce/README.md).
+Veja mais em [commerce/README.md](commerce/README.md).
 
-## Integracoes principais
+## Como Navegar Pela Documentação
 
-- Adobe Commerce -> Hydrogen via endpoint REST customizado
-- AEM -> Hydrogen via GraphQL
-- AEM -> Commerce via banner/endpoint customizado
-- Shopify Storefront API -> Hydrogen para produtos, colecoes e metafields
+- Arquitetura da solução: [hydrogen/guides/project-architecture.md](hydrogen/guides/project-architecture.md)
+- Setup do ambiente: [hydrogen/guides/setup-and-run.md](hydrogen/guides/setup-and-run.md)
+- Checklist final: [hydrogen/guides/final-checklist.md](hydrogen/guides/final-checklist.md)
+- Comandos de validação: [hydrogen/guides/demo-validation-commands.md](hydrogen/guides/demo-validation-commands.md)
+- Índice dos guias do storefront: [hydrogen/guides/README.md](hydrogen/guides/README.md)
 
-## Observacao
+## O Que Está Versionado
 
-Se o objetivo for apresentar ou publicar o projeto como portifolio, este formato em mono-repo representa melhor a entrega completa do que manter apenas o storefront.
+- código-fonte do storefront Hydrogen
+- código-fonte AEM do projeto
+- módulos customizados do Adobe Commerce
+- documentação de arquitetura, setup e validação
+
+## O Que Não Está Versionado
+
+- runtimes locais do AEM como `crx-quickstart`
+- instalação completa do Adobe Commerce
+- `node_modules`, `dist`, `target`, caches e logs
+- arquivos locais de ambiente e credenciais
+
+## Execução Rápida
+
+### Hydrogen
+
+```bash
+cd hydrogen
+npm install
+npm run dev
+```
+
+### AEM
+
+```bash
+cd aem
+mvn clean install
+```
+
+### Commerce
+
+As customizações ficam em `commerce/app/code/Bootcamp` e devem ser copiadas ou integradas a uma instância Adobe Commerce local.
+
+## Objetivo do Repositório
+
+Este repositório foi organizado para representar a entrega completa do projeto em formato de portfólio técnico, preservando apenas o código-fonte relevante e a documentação necessária para entender, executar e demonstrar a solução.

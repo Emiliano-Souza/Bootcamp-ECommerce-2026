@@ -1,30 +1,34 @@
 # Arquitetura do Projeto
 
-## Visão geral
+## Visão Geral
 
-O projeto foi construído como uma solução composable de e-commerce e experiência digital.
+O projeto foi estruturado como uma solução composable de e-commerce e experiência digital, distribuída entre três camadas principais:
 
-Plataformas envolvidas:
+- storefront headless com Shopify Hydrogen
+- catálogo e APIs customizadas em Adobe Commerce
+- conteúdo, páginas e experiência em Adobe Experience Manager
 
+## Plataformas Envolvidas
+
+- Shopify Hydrogen
+- Shopify Storefront API
 - Adobe Commerce
 - Adobe Experience Manager
-- Shopify
-- Shopify Hydrogen
 
-## Fluxos principais
+## Fluxos Principais
 
 ### 1. Adobe Commerce -> Hydrogen
 
 Objetivo:
 
-- expor o catálogo do Commerce via REST
-- validar consumo desse catálogo no storefront Hydrogen
+- expor o catálogo do Commerce por meio de uma API REST customizada
+- validar esse consumo no storefront Hydrogen
 
-Endpoint:
+Endpoint principal:
 
 - `http://magento2.docker/rest/V1/bootcamp/catalog/products`
 
-Uso no projeto:
+Uso no storefront:
 
 - rota `/commerce`
 - rota `/dashboard`
@@ -33,14 +37,14 @@ Uso no projeto:
 
 Objetivo:
 
-- expor produtos e conteúdo via AEM GraphQL
-- renderizar esses dados no storefront headless
+- disponibilizar produtos e conteúdo via AEM GraphQL
+- renderizar esse material no storefront headless
 
-Endpoint:
+Endpoint principal:
 
 - `http://localhost:4502/content/cq:graphql/bootcamp-emiliano/endpoint.json`
 
-Uso no projeto:
+Uso no storefront:
 
 - rota `/about`
 - rota `/dashboard`
@@ -49,75 +53,60 @@ Uso no projeto:
 
 Objetivo:
 
-- publicar conteúdo de experiência no Commerce
-- exibir banner vindo do AEM na home do Commerce
+- disponibilizar conteúdo de experiência dentro do Commerce
+- exibir banner e conteúdo integrados ao ambiente da loja
 
 Uso no projeto:
 
-- homepage do Commerce
-- validação visual em ambiente local
+- homepage do Commerce em ambiente local
+- validação visual da integração AEM + Commerce
 
 ### 4. Shopify -> Hydrogen
 
 Objetivo:
 
-- usar Shopify como base do storefront headless
+- utilizar a Shopify Storefront API como base do storefront headless
 - consumir produtos, coleção em destaque e metafields
 
-Uso no projeto:
+Uso no storefront:
 
 - home `/`
 - página de produto
 - dashboard
 
-## Camadas
+## Estrutura do Monorepo
+
+- `hydrogen/`
+  Storefront headless, documentação operacional e páginas de validação
+- `aem/`
+  Projeto AEM com módulos Maven, componentes, configuração e conteúdo
+- `commerce/`
+  Módulos customizados do Adobe Commerce
+
+## Responsabilidades por Camada
 
 ### Storefront
 
 - Hydrogen
 - React Router
 - componentes React
-- estilos customizados em `app/styles/bootcamp.css`
+- estilos customizados em `hydrogen/app/styles/bootcamp.css`
 
 ### Conteúdo
 
 - AEM Author
 - AEM Publish
+- Content Fragments
 - Experience Fragments
-- páginas AEM do site
-- GraphQL para Content Fragments
+- páginas e configuração do site
 
 ### Catálogo
 
-- Adobe Commerce via REST
-- Shopify Storefront API
+- Adobe Commerce via endpoint REST customizado
+- Shopify Storefront API para catálogo do storefront
 
-## Estrutura física local
+## Observações
 
-- `C:\Users\emili\BOOTCAMP\bootcamp-emiliano`
-  Hydrogen + documentação
-- `C:\Users\emili\bootcamp-emiliano`
-  código-fonte AEM
-- `\\wsl.localhost\Ubuntu\home\emiliano\project-community-edition`
-  código-fonte Adobe Commerce
-- `C:\Users\emili\Downloads\crx-quickstart`
-  AEM Author runtime
-- `C:\Users\emili\Downloads\crx-quickstart-publish`
-  AEM Publish runtime
-
-## Páginas AEM de apoio criadas
-
-- `Vitrine Bootcamp`
-- `Loja Bootcamp`
-
-Publish:
-
-- `http://localhost:4503/content/bootcamp-emiliano/us/en/vitrine-bootcamp.html`
-- `http://localhost:4503/content/bootcamp-emiliano/us/en/loja-bootcamp.html`
-
-## Observações importantes
-
-- O runtime do AEM não deve ser versionado
-- O código do AEM precisa existir no Publish para o render funcionar
-- O storefront Hydrogen é a parte mais portátil do projeto
-
+- o runtime do AEM não deve ser versionado
+- o runtime completo do Commerce não faz parte deste repositório
+- o monorepo foi desenhado para representar a entrega completa do projeto sem incluir instalações locais pesadas
