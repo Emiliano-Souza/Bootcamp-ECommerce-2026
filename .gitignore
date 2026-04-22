@@ -1,12 +1,42 @@
-node_modules
-/.cache
-/build
-/dist
-/public/build
-/.mf
-.env
-.shopify
-.react-router
+# Root
+.DS_Store
+Thumbs.db
 *.log
-*.tsbuildinfo
-.tmp-*
+*.tmp
+
+# Hydrogen
+hydrogen/node_modules/
+hydrogen/dist/
+hydrogen/.cache/
+hydrogen/.shopify/
+hydrogen/.react-router/
+hydrogen/.env
+hydrogen/.tmp-*
+hydrogen/*.tsbuildinfo
+
+# AEM
+aem/**/target/
+aem/**/node_modules/
+aem/**/dist/
+aem/**/build/
+aem/**/coverage/
+aem/**/reports/
+aem/**/.settings/
+aem/**/.classpath
+aem/**/.project
+aem/**/.factorypath
+aem/**/.iml
+aem/**/.idea/
+aem/ui.frontend/node/
+aem/dispatcher/src/conf.d/variables/default.vars
+
+# Commerce
+commerce/vendor/
+commerce/generated/
+commerce/var/
+commerce/pub/static/
+commerce/pub/media/catalog/product/cache/
+commerce/.docker/
+commerce/.codex
+commerce/auth.json
+commerce/app/etc/env.php

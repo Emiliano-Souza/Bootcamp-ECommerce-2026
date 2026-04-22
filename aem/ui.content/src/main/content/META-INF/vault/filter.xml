@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/bootcamp-emiliano" mode="merge"/>
+    <filter root="/content/bootcamp-emiliano" mode="merge"/>
+    <filter root="/content/dam/bootcamp-emiliano" mode="merge">
+        <exclude pattern="/content/dam/bootcamp-emiliano(/.*)?"/>
+        <include pattern="/content/dam/bootcamp-emiliano/jcr:content(/.*)?"/>
+    </filter>
+    <filter root="/content/dam/bootcamp-emiliano/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/bootcamp-emiliano" mode="merge"/>
+</workspaceFilter>

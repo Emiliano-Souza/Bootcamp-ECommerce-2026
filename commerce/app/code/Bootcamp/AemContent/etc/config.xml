@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <bootcamp_aem>
+            <banner>
+                <enabled>1</enabled>
+                <endpoint></endpoint>
+                <request_timeout>5</request_timeout>
+                <title>Bootcamp Banner</title>
+                <description>Configure an AEM JSON endpoint to render the homepage banner.</description>
+                <cta_label>Learn more</cta_label>
+                <cta_url>#</cta_url>
+            </banner>
+        </bootcamp_aem>
+    </default>
+</config>
