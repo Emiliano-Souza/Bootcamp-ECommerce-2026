@@ -21,6 +21,54 @@ Principais fluxos implementados:
 - AEM -> Commerce via módulo de conteúdo/banner
 - Shopify -> Hydrogen via produtos, coleções e metafields
 
+## Arquitetura da Solução
+
+Em termos de arquitetura, o projeto foi desenhado para separar claramente as responsabilidades de catálogo, conteúdo e experiência:
+
+- `Hydrogen` funciona como storefront headless e camada principal de apresentação
+- `Shopify Storefront API` fornece dados nativos da loja, coleções, produtos e metafields
+- `Adobe Commerce` concentra módulos customizados e um endpoint REST complementar de catálogo
+- `Adobe Experience Manager` gerencia conteúdo, páginas e fragmentos distribuídos para os outros canais
+
+Fluxo resumido:
+
+```text
+Shopify Storefront API ----\
+                            \
+                             > Hydrogen storefront
+                            /
+Adobe Commerce REST -------/
+
+AEM GraphQL --------------> Hydrogen storefront
+AEM content/banner -------> Adobe Commerce
+```
+
+Na prática, isso permite validar no mesmo projeto:
+
+- um storefront headless integrado a múltiplas fontes de dados
+- separação entre experiência editorial e catálogo
+- reaproveitamento de conteúdo entre AEM, Commerce e storefront
+
+## Responsabilidade de Cada Camada
+
+### Hydrogen
+
+- renderização da experiência principal
+- rotas de integração e dashboard
+- consumo de Storefront API, AEM GraphQL e Commerce REST
+
+### AEM
+
+- gestão de conteúdo e páginas
+- Content Fragments e Experience Fragments
+- configuração da experiência editorial e estrutura do site
+
+### Commerce
+
+- endpoint REST customizado do catálogo
+- integração de banner/conteúdo vindo do AEM
+- módulos customizados do projeto
+
 ## Estrutura do Repositório
 
 ```text
@@ -113,6 +161,25 @@ mvn clean install
 ### Commerce
 
 As customizações ficam em `commerce/app/code/Bootcamp` e devem ser copiadas ou integradas a uma instância Adobe Commerce local.
+
+## Pré-Requisitos
+
+Para reproduzir a solução completa, o ambiente esperado é:
+
+- Node.js 22 ou 24 para o storefront Hydrogen
+- Java 11+ e Maven para o projeto AEM
+- instâncias locais do AEM Author e Publish
+- instância local ou em container do Adobe Commerce
+- variáveis e credenciais configuradas localmente fora do Git
+
+## Limitações Deliberadas do Repositório
+
+Este monorepo foi estruturado para versionar a solução sem carregar runtimes pesados ou arquivos sensíveis. Por isso:
+
+- o runtime local do AEM não está incluído
+- a instalação completa do Adobe Commerce não está incluída
+- credenciais e configurações locais devem ser definidas no ambiente
+- alguns fluxos dependem de serviços rodando localmente
 
 ## Objetivo do Repositório
 

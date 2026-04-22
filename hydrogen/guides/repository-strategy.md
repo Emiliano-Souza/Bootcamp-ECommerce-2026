@@ -1,42 +1,49 @@
-# Estratégia de Repositório Público
+# Estratégia de Repositório
 
-## Situação real do projeto
+## Objetivo
 
-O projeto completo não vive em uma única pasta.
+Este documento registra a decisão de manter a solução em um único monorepo, sem versionar runtimes locais ou instalações completas de plataforma.
 
-Partes identificadas:
+## Estratégia Adotada
 
-- Hydrogen e documentação neste repositório
-- código-fonte AEM em `C:\Users\emili\bootcamp-emiliano`
-- código-fonte Commerce em `\\wsl.localhost\Ubuntu\home\emiliano\project-community-edition`
-- runtimes AEM em `crx-quickstart` e `crx-quickstart-publish`
+O projeto foi consolidado em um único repositório com três áreas principais:
 
-## Recomendação
+- `hydrogen/`
+- `aem/`
+- `commerce/`
 
-Use um modelo com 3 repositórios:
+Esse formato foi escolhido para:
 
-1. `bootcamp-emiliano-storefront`
-   Hydrogen + documentação consolidada
-2. `bootcamp-emiliano-aem`
-   código-fonte do projeto AEM
-3. `bootcamp-emiliano-commerce`
-   customizações do Adobe Commerce
+- representar a entrega completa do bootcamp
+- facilitar navegação e apresentação do projeto
+- preservar o código-fonte principal em um só lugar
+- evitar fragmentação excessiva para fins de portfólio
 
-## Se quiser apenas um repositório público por agora
+## O Que Está Dentro do Monorepo
 
-Use este repositório como hub principal e documente claramente:
+- storefront Hydrogen
+- projeto AEM com seus módulos principais
+- módulos customizados do Adobe Commerce
+- documentação de arquitetura, setup e validação
 
-- o que está incluído
-- o que está fora
-- onde cada parte do sistema roda
-- como reproduzir o ambiente
-
-## O que não deve entrar no Git
+## O Que Fica Fora
 
 - `node_modules`
-- `.env`
+- `dist`
+- `target`
 - logs temporários
-- `crx-quickstart`
-- `crx-quickstart-publish`
-- caches e builds locais
+- arquivos `.env`
+- runtime AEM como `crx-quickstart`
+- instalação completa do Adobe Commerce
+- caches, builds e dados locais de ambiente
 
+## Benefícios do Modelo Atual
+
+- documentação centralizada
+- visão completa da solução em um único lugar
+- melhor leitura para recrutadores, avaliadores ou apresentação técnica
+- separação clara entre código-fonte e infraestrutura local
+
+## Observação
+
+Mesmo em mono-repo, a execução completa da solução ainda depende de serviços locais externos, especialmente AEM Author/Publish e uma instância Adobe Commerce disponível no ambiente.
